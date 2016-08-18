@@ -26,7 +26,8 @@ class NotesApplication {
      * @param {string} author is the author's name for the text
      */
     createANote(content, author) {
-        if(content === '' || author === '') {
+        if(content === '' || author === '' || content === undefined
+        || author === undefined) {
             console.log('content and author must not be empty');
             return;
         }
@@ -38,7 +39,6 @@ class NotesApplication {
         }else{
             console.log('That should be an invalid note');
         }
-        
     }
     
     /**
@@ -47,13 +47,17 @@ class NotesApplication {
     listAllNotes() {
         if(this.notes.length > 0) {
             console.log('Total notes are '+this.notes.length);
+            for(let count = 0; count < this.notes.length; count++) {
+                if(this.notes[count] !== undefined) {
+                    console.log('Note ID: '
+                    +this.notes[count].noteid+'\n'
+                    +this.notes[count].noteContent
+                    +'\nBy Author '
+                    +this.notes[count].author+'\n');
+                }
+            }
         }else{
             console.log('No note to list yet');
-        }
-        for(let count = 0; count < this.notes.length; count++) {
-            if(this.notes[count] !== undefined) {
-                console.log('Note ID: '+this.notes[count].noteid+'\n'+this.notes[count].noteContent+'\nBy Author '+this.notes[count].author+'\n');
-            }
         }
     }
     
@@ -63,8 +67,9 @@ class NotesApplication {
      */ 
     getANote(note_id) {
         for(let count = 0; count < this.notes.length; count++) {
-            if(this.notes[count].noteid == note_id) {
-                return (this.notes[count].noteContent+'\nBy Author '+this.notes[count].author+'\n');
+            if(this.notes[count].noteid === note_id) {
+                return (this.notes[count].noteContent
+                +'\nBy Author '+this.notes[count].author+'\n');
             }
         }
         return ('Note does not exist');
@@ -72,7 +77,8 @@ class NotesApplication {
     }
     
     /**
-     * this function loops through the array to check if any noteContent contains a string
+     * this function loops through the array to check if any noteContent 
+     * contains a string
      * @param {string} searchString is the substring we are searching for
      */ 
     searchNotes(searchString) {
@@ -80,7 +86,10 @@ class NotesApplication {
         let count = 0;
         for(let id = 0; id < this.notes.length; id++) {
             if(this.notes[id].noteContent.indexOf(searchString) !== -1) {
-                returnString += 'Note ID: '+this.notes[id].noteid+'\n'+this.notes[id].noteContent+'\nBy author '+this.notes[id].author+'\n';
+                returnString += 'Note ID: '
+                +this.notes[id].noteid+'\n'
+                +this.notes[id].noteContent+'\nBy author '
+                +this.notes[id].author+'\n';
                 count++;
             }
         }
