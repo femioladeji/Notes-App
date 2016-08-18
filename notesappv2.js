@@ -4,7 +4,7 @@ class Note {
      * @param {string }noteContent a string of the noteContent
      * @param {string} authorName a string of the author
      */
-    constructor(noteContent, authorName){
+    constructor(noteContent, authorName) {
         this.noteContent = noteContent;
         this.author = authorName;
         this.noteid = 0;
@@ -22,9 +22,15 @@ class NotesApplication {
     
     /**
      *createANote method is used to add a new note
-     * @param {note} note is an instance of note
+     * @param {string} content is the text of the note that is been added
+     * @param {string} author is the author's name for the text
      */
-    createANote(note) {
+    createANote(content, author) {
+        if(content === '' || author === '') {
+            console.log('content and author must not be empty');
+            return;
+        }
+        let note = new Note(content, author);
         if (note instanceof Note) {
             note.noteid = this.currentId;
             this.notes.push(note);
@@ -44,7 +50,7 @@ class NotesApplication {
         }else{
             console.log('No note to list yet');
         }
-        for(var count = 0; count < this.notes.length; count++) {
+        for(let count = 0; count < this.notes.length; count++) {
             if(this.notes[count] !== undefined) {
                 console.log('Note ID: '+this.notes[count].noteid+'\n'+this.notes[count].noteContent+'\nBy Author '+this.notes[count].author+'\n');
             }
@@ -56,7 +62,7 @@ class NotesApplication {
      * @param {number} note_id is a unique description
      */ 
     getANote(note_id) {
-        for(var count = 0; count < this.notes.length; count++) {
+        for(let count = 0; count < this.notes.length; count++) {
             if(this.notes[count].noteid == note_id) {
                 return (this.notes[count].noteContent+'\nBy Author '+this.notes[count].author+'\n');
             }
@@ -70,9 +76,9 @@ class NotesApplication {
      * @param {string} searchString is the substring we are searching for
      */ 
     searchNotes(searchString) {
-        var returnString = 'Showing results for '+searchString+'\n';
-        var count = 0;
-        for(var id = 0; id < this.notes.length; id++) {
+        let returnString = 'Showing results for '+searchString+'\n';
+        let count = 0;
+        for(let id = 0; id < this.notes.length; id++) {
             if(this.notes[id].noteContent.indexOf(searchString) !== -1) {
                 returnString += 'Note ID: '+this.notes[id].noteid+'\n'+this.notes[id].noteContent+'\nBy author '+this.notes[id].author+'\n';
                 count++;
@@ -89,7 +95,7 @@ class NotesApplication {
      * @param note_id is the index
      */ 
     deleteANote(note_id) {
-        for(var count = 0; count < this.notes.length; count++) {
+        for(let count = 0; count < this.notes.length; count++) {
             if(this.notes[count].noteid == note_id) {
                 this.notes.splice(count, 1);
                 return;
@@ -105,7 +111,7 @@ class NotesApplication {
      * @param note_content is the new content
      */ 
     editANote(note_id, note_content) {
-        for(var count = 0; count < this.notes.length; count++) {
+        for(let count = 0; count < this.notes.length; count++) {
             if(this.notes[count].noteid == note_id) {
                 this.notes[count].noteContent = note_content;
             }
@@ -113,15 +119,11 @@ class NotesApplication {
     }
 }
 
-var myNote = new NotesApplication();
+let myNote = new NotesApplication();
 
-var note1 = new Note('G-Ramos has kinda been a saviour today', 'G-Ramos');
+myNote.createANote('G-Ramos has kinda been a saviour today', 'G-Ramos');
 
-myNote.createANote(note1);
-
-var note2 = new Note('this learning is a bit intense', 'Chidiebere');
-
-myNote.createANote(note2);
+myNote.createANote('this learning is a bit intense', 'Chidiebere');
 
 myNote.listAllNotes();
 
@@ -129,9 +131,7 @@ myNote.getANote(3)
 
 console.log(myNote.searchNotes('G-Ramos'))
 
-var note3 = new Note('My TA is Toyin', 'Toyin');
-
-myNote.createANote(note3);
+myNote.createANote('My TA is Toyin', 'Toyin');
 
 myNote.deleteANote(5);
 
@@ -152,12 +152,13 @@ myNote.editANote(3, 'Toyin told me to make some modifications to my code');
 myNote.getANote(3);
 
 console.log('Maryam almost burst my bubble by getting a note with id 0.5');
-myNote.getANote(0.5);
-//deleteANote()
-console.log('\n\n');
-var note4 = new Note('Adding a new note to check the id after deleting anothr note', 'Femi');
 
-myNote.createANote(note1);
+myNote.getANote(0.5);
+
+console.log('\n\n');
+
+myNote.createANote('Adding a new note to check the id after deleting anothr note', 'Femi');
 
 myNote.listAllNotes()
 
+myNote.createANote('', 'Femi');
